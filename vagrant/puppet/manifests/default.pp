@@ -13,6 +13,11 @@ node default {
   }
 
   #
+  # Define paths
+  #
+  Exec { path => ["/bin", "/sbin", "/usr/bin", "/usr/sbin"] }
+
+  #
   # Add EPEL repository and install Nginx.
   #
   yumrepo { 'epel':
@@ -68,13 +73,21 @@ node default {
   }
 
   #
-  # Put useful shell scripts in /usr/local/bin.
+  # Install dotfiles
   #
-  file { '/usr/local/bin/git-subrepo-status':
-    source => '/vagrant/puppet/files/git/git-subrepo-status',
-    owner => 'root',
-    group => 'root',
-    mode => '0755'
+  exec { "create_dotfiles":
+    command => "git clone https://github.com/aurer/dotfiles.git /root/dotfiles && source /root/dotfiles/bootstrap.sh -f",
+    require => Package['git'],
+    creates => "/root/dotfiles"
+  }
+
+  #
+  # Install nginx includes
+  #
+  exec { "create_nginx_includes":
+    command => "git clone https://github.com/aurer/nginx-conf.git /etc/nginx/includes",
+    require => Package['git'],
+    creates => "/etc/nginx/includes"
   }
 
   #
