@@ -89,6 +89,11 @@ node default {
   }
 
   #
+  # Ensure nginx log dir exists
+  #
+  file { '/var/log/nginx': ensure => 'directory' }
+
+  #
   # Start services.
   #
   service { 'nginx': require => Package['nginx'] }
