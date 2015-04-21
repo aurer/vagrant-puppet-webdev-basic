@@ -17,8 +17,8 @@ node default {
   #
   Exec { path => ["/bin", "/sbin", "/usr/bin", "/usr/sbin"] }
 
-  #
-  # Add EPEL repository and install Nginx.
+   #
+  # Add EPEL repository and install Nginx package.
   #
   yumrepo { 'epel':
     baseurl => 'http://dl.fedoraproject.org/pub/epel/6/x86_64',
@@ -27,7 +27,41 @@ node default {
     gpgcheck => 0
   }
 
-  package { 'nginx': require => Yumrepo['epel'] }
+  package { 'nginx':
+    require => Yumrepo['epel']
+  }
+
+  service { 'nginx':
+    require => Package['nginx']
+  }
+
+  #
+  # Add IUS repository and install common PHP 5.5 packages.
+  #
+  yumrepo { 'ius':
+    baseurl => 'http://dl.iuscommunity.org/pub/ius/stable/CentOS/6/x86_64',
+    descr => 'IUS Community',
+    enabled => 1,
+    gpgcheck => 0
+  }
+
+  $php_packages = [
+    'php54-fpm',
+    'php54-gd',
+    'php54-mcrypt',
+    'php54-mysql',
+    'php54-pdo',
+    'php54-pear',
+    'php54-xml'
+  ]
+
+  package { $php_packages: 
+    require => Yumrepo['ius']
+  }
+
+  service { 'php-fpm':
+    require => Package['php54-fpm']
+  }
 
   #
   # Install other important/useful packages.
@@ -36,15 +70,7 @@ node default {
     'git',
     'mysql-server',
     'nodejs',
-    'npm',
-    'php-fpm',
-    'php-gd',
-    'php-mbstring',
-    'php-mcrypt',
-    'php-mysql',
-    'php-pdo',
-    'php-pear',
-    'php-xml'
+    'npm'
   ]
   package { $packages: }
 
@@ -86,7 +112,10 @@ node default {
   #
   exec { "create_nginx_includes":
     command => "git clone https://github.com/aurer/nginx-conf.git /etc/nginx/includes",
-    require => Package['git'],
+    require => [
+      Package['git'],
+      Package['nginx']
+    ],
     creates => "/etc/nginx/includes"
   }
 
@@ -102,16 +131,9 @@ node default {
   }
 
   #
-  # Ensure nginx log dir exists
-  #
-  file { '/var/log/nginx': ensure => 'directory' }
-
-  #
   # Start services.
   #
-  service { 'nginx': require => Package['nginx'] }
-  service { 'php-fpm': require => Package['php-fpm'] }
-  service { 'mysqld': require => Package['mysql-server'] }
+  # service { 'mysqld': require => Package['mysql-server'] }
 
   # Turn the firewall off so that we don't have to punch a hole in it just to
   # get a local development environment working.
