@@ -9,6 +9,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network "private_network", ip: "10.0.0.100"
 
   config.vm.synced_folder "../http/", "/srv/http/", type: "nfs"
+  config.vm.synced_folder "../logs/nginx", "/var/log/nginx", type: "nfs"
+  config.vm.synced_folder "../logs/php-fpm", "/var/log/pph-fpm", type: "nfs"
 
   config.vm.provision "puppet" do |puppet|
     puppet.manifests_path = "puppet/manifests"
