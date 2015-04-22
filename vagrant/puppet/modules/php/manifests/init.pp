@@ -19,7 +19,7 @@ class php {
     'php54-xml'
   ]
 
-  package { $php_packages: 
+  package { $php_packages:
     require => Yumrepo['ius']
   }
 
@@ -35,6 +35,6 @@ class php {
 
   # Start php
   service { 'php-fpm':
-    require => Package['php54-fpm']
+    require => [Package['php54-fpm'], Package['nginx']]
   }
 }
