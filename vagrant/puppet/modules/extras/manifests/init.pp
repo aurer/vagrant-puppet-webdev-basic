@@ -6,7 +6,6 @@ class extras {
   $packages = [
     'vim-enhanced',
     'git',
-    'mysql-server',
     'nodejs',
     'npm'
   ]
@@ -46,11 +45,6 @@ class extras {
     mode => '0644',
     require => Package['nginx']
   }
-
-  #
-  # Start services.
-  #
-  service { 'mysqld': require => Package['mysql-server'] }
 
   #
   # Turn the firewall off so that we don't have to punch a hole in it
