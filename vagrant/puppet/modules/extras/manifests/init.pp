@@ -45,9 +45,4 @@ class extras {
     mode => '0644',
     require => Package['nginx']
   }
-
-  #
-  # Turn the firewall off so that we don't have to punch a hole in it
-  #
-  service { 'firewalld': ensure => 'stopped' }
 }

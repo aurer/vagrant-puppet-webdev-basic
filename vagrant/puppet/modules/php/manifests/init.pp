@@ -33,9 +33,4 @@ class php {
     require => Package['php55u-fpm'],
     notify  => Service['php-fpm'],
   }
-
-  # Start php
-  service { 'php-fpm':
-    require => [Package['php55u-fpm'], Package['nginx']]
-  }
 }

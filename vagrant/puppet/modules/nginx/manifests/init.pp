@@ -14,9 +14,4 @@ class nginx {
     require => Package['nginx'],
     notify  => Service['nginx'],
   }
-
-  # Start nginx
-  service { 'nginx':
-    require => Package['nginx']
-  }
 }
