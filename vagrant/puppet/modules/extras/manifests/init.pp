@@ -4,6 +4,7 @@ class extras {
   # Install other important/useful packages.
   #
   $packages = [
+    'vim-enhanced',
     'git',
     'mysql-server',
     'nodejs',
