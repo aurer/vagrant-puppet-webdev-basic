@@ -31,6 +31,7 @@ node default {
   include 'extras'
   include 'nginx'
   include 'php'
+  # include 'node'
   include 'mariadb'
   include 'sshkeys'
   include 'services'
