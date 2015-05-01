@@ -8,7 +8,6 @@ node default {
   }
 
   Service {
-    ensure => 'running',
     enable => true
   }
 

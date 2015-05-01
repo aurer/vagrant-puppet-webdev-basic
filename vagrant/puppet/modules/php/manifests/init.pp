@@ -9,14 +9,15 @@ class php {
 
   # Install php packages
   $php_packages = [
-    'php54-fpm',
-    'php54-gd',
-    'php54-mcrypt',
-    'php54-mbstring',
-    'php54-mysql',
-    'php54-pdo',
-    'php54-pear',
-    'php54-xml'
+    'php55u-fpm',
+    'php55u-gd',
+    'php55u-mcrypt',
+    'php55u-mbstring',
+    'php55u-mysqlnd',
+    'php55u-pdo',
+    'php55u-pear',
+    'php55u-xml',
+    'php55u-cli'
   ]
 
   package { $php_packages: 
@@ -29,12 +30,12 @@ class php {
     owner => 'root',
     group => 'root',
     mode => 0644,
-    require => Package['php54-fpm'],
+    require => Package['php55u-fpm'],
     notify  => Service['php-fpm'],
   }
 
   # Start php
   service { 'php-fpm':
-    require => Package['php54-fpm']
+    require => [Package['php55u-fpm'], Package['nginx']]
   }
 }
