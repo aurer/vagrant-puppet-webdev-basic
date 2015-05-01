@@ -55,5 +55,5 @@ class extras {
   #
   # Turn the firewall off so that we don't have to punch a hole in it
   #
-  service { 'iptables': ensure => 'stopped' }
+  service { 'firewalld': ensure => 'stopped' }
 }
