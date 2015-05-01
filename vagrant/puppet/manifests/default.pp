@@ -16,13 +16,10 @@ node default {
   #
   Exec { path => ["/bin", "/sbin", "/usr/bin", "/usr/sbin"] }
 
-  # Add EPEL repository.
-  yumrepo { 'epel':
-    baseurl => 'http://dl.fedoraproject.org/pub/epel/6/x86_64',
-    descr => 'Extra Packages for Enterprise Linux',
-    enabled => 1,
-    gpgcheck => 0
-  }
+  #
+  # Ensure epel-release installed
+  #
+  package { 'epel-release': }
   
   #
   # Include other modules

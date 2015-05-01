@@ -20,6 +20,17 @@ class php {
     'php55u-cli'
   ]
 
+  file { '/var/run/php-fpm':
+    ensure  => 'directory'
+  }
+
+  file { '/var/lib/php/session':
+    ensure => 'directory',
+    owner => 'nginx',
+    group => 'nginx',
+    mode => 755
+  }
+
   package { $php_packages: 
     require => Yumrepo['ius']
   }

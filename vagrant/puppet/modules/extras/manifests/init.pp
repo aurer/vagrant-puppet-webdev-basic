@@ -1,17 +1,16 @@
 class extras {
-
-	#
+	
+  #
   # Install other important/useful packages.
   #
   $packages = [
     'vim-enhanced',
     'git',
-    'nodejs',
-    'npm'
+    'wget',
   ]
   
   package { $packages: 
-    require => Yumrepo['epel']
+    require => Package['epel-release']
   }
 
   #

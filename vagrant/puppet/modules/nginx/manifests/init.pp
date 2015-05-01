@@ -2,7 +2,7 @@ class nginx {
 
   # Install Nginx package
   package { 'nginx':
-    require => Yumrepo['epel']
+    require => Package['epel-release']
   }
 
   # Use a custom php-fpm configuration file
