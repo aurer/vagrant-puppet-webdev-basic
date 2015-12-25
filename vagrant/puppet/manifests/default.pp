@@ -20,7 +20,7 @@ node default {
   # Ensure epel-release installed
   #
   package { 'epel-release': }
-  
+
   #
   # Include other modules
   #
@@ -28,7 +28,7 @@ node default {
   include 'extras'
   include 'nginx'
   include 'php'
-  # include 'node'
+  include 'nodejs'
   include 'mariadb'
   include 'sshkeys'
   include 'services'
