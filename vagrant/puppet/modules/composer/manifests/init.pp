@@ -1,6 +1,7 @@
 class composer {
   package { "curl":
     ensure => installed,
+    allow_virtual => false
   }
 
   exec { 'composer_install':

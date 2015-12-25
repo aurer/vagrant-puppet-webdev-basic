@@ -1,4 +1,4 @@
-# -*- mode: ruby -*-
+#!/usr/bin/env ruby
 # vi: set ft=ruby :
 
 VAGRANTFILE_API_VERSION = "2"
@@ -6,22 +6,20 @@ HOSTNAME = "Sandbox"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "puppetlabs/centos-7.0-64-puppet"
-  
-  config.vm.network "private_network", ip: "10.0.0.100"
-  config.vm.hostname = HOSTNAME
-
-  config.vm.synced_folder "../http/", "/srv/http/", type: "nfs"
-  # config.vm.synced_folder "../logs/nginx", "/var/log/nginx", type: "nfs"
-  # config.vm.synced_folder "../logs/php-fpm", "/var/log/pph-fpm", type: "nfs"
-
-  config.vm.provision "puppet" do |puppet|
-    puppet.manifests_path = "puppet/manifests"
-    puppet.module_path = "puppet/modules"
-  end
 
   config.vm.provider :virtualbox do |vb|
     vb.name = HOSTNAME
     vb.customize ["modifyvm", :id, "--memory", "2048"]
     vb.customize ["modifyvm", :id, "--cpus", "1"]
+  end
+
+  config.vm.network "private_network", ip: "10.0.0.100"
+  config.vm.hostname = HOSTNAME
+
+  config.vm.synced_folder "../http/", "/srv/http/", type: "nfs"
+
+  config.vm.provision "puppet" do |puppet|
+    puppet.manifests_path = "puppet/manifests"
+    puppet.module_path = "puppet/modules"
   end
 end
