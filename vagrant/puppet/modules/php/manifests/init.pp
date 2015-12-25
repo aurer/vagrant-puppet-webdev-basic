@@ -1,39 +1,42 @@
 class php {
-  # Add IUS repository and install common PHP 5.5 packages.
-  yumrepo { 'ius':
-    baseurl => 'http://dl.iuscommunity.org/pub/ius/stable/CentOS/6/x86_64',
-    descr => 'IUS Community',
+  # Add Webtatic repository and install common PHP 7 packages.
+  yumrepo { 'webtatic':
+    baseurl => 'https://mirror.webtatic.com/yum/el7/',
+    descr => 'Webtatic',
     enabled => 1,
     gpgcheck => 0
   }
 
-  # Install php packages
-  $php_packages = [
-    'php55u-fpm',
-    'php55u-gd',
-    'php55u-mcrypt',
-    'php55u-mbstring',
-    'php55u-mysqlnd',
-    'php55u-pdo',
-    'php55u-pear',
-    'php55u-xml',
-    'php55u-cli'
+  # PHP 7 packages
+  $php_7_packages = [
+    'php70w-fpm',
+    'php70w-gd',
+    'php70w-mcrypt',
+    'php70w-mbstring',
+    'php70w-mysqlnd',
+    'php70w-pdo',
+    'php70w-pear',
+    'php70w-xml',
+    'php70w-cli'
   ]
 
-  file { '/var/run/php-fpm':
-    ensure  => 'directory'
+  # Install PHP 7 packages
+  package { $php_7_packages:
+    require => Yumrepo['webtatic']
   }
 
-  file { '/var/lib/php/session':
-    ensure => 'directory',
-    owner => 'nginx',
-    group => 'nginx',
-    mode => 755
-  }
+  # Ensure PHP run dir is present
+  # file { '/var/run/php-fpm':
+  #   ensure  => 'directory'
+  # }
 
-  package { $php_packages: 
-    require => Yumrepo['ius']
-  }
+  # Ensure PHP Session dir is present
+  # file { '/var/lib/php/session':
+  #   ensure => 'directory',
+  #   owner => 'nginx',
+  #   group => 'nginx',
+  #   mode => 755
+  # }
 
   # Use a custom php-fpm configuration file
   file { '/etc/php-fpm.d/www.conf':
@@ -41,7 +44,7 @@ class php {
     owner => 'root',
     group => 'root',
     mode => 0644,
-    require => Package['php55u-fpm'],
+    require => Package['php70w-fpm'],
     notify  => Service['php-fpm'],
   }
 }
