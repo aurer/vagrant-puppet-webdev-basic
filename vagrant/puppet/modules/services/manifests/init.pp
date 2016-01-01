@@ -11,7 +11,7 @@ class services {
 
   # PHP
   service { 'php-fpm':
-    require => [Package['php55u-fpm'], Package['nginx']],
+    require => [Package['php70w-fpm'], Package['nginx']],
   }
 
   # Mariadb
@@ -20,7 +20,7 @@ class services {
   }
 
   # Firewall
-  service { 'firewalld': 
-    ensure => 'stopped' 
+  service { 'firewalld':
+    ensure => 'stopped'
   }
 }
