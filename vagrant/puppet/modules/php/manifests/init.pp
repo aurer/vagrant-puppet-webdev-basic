@@ -26,17 +26,17 @@ class php {
   }
 
   # Ensure PHP run dir is present
-  # file { '/var/run/php-fpm':
-  #   ensure  => 'directory'
-  # }
+  file { '/var/run/php-fpm':
+    ensure  => 'directory'
+  }
 
   # Ensure PHP Session dir is present
-  # file { '/var/lib/php/session':
-  #   ensure => 'directory',
-  #   owner => 'nginx',
-  #   group => 'nginx',
-  #   mode => 755
-  # }
+  file { '/var/lib/php/session':
+    ensure => 'directory',
+    owner => 'nginx',
+    group => 'nginx',
+    mode => 755
+  }
 
   # Use a custom php-fpm configuration file
   file { '/etc/php-fpm.d/www.conf':
