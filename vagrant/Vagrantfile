@@ -6,6 +6,7 @@ HOSTNAME = "Sandbox"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "puppetlabs/centos-7.0-64-puppet"
+  config.vm.box_version = "1.0.1"
 
   config.vm.provider :virtualbox do |vb|
     vb.name = HOSTNAME
