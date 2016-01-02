@@ -1,10 +1,9 @@
 class php {
+  
   # Add Webtatic repository and install common PHP 7 packages.
-  yumrepo { 'webtatic':
-    baseurl => 'https://mirror.webtatic.com/yum/el7/',
-    descr => 'Webtatic',
-    enabled => 1,
-    gpgcheck => 0
+  exec { "install webtatic":
+    command => "rpm -Uvh https://mirror.webtatic.com/yum/el7/webtatic-release.rpm",
+    unless => "rpm -qa | grep webtatic"
   }
 
   # PHP 7 packages
@@ -22,7 +21,7 @@ class php {
 
   # Install PHP 7 packages
   package { $php_7_packages:
-    require => Yumrepo['webtatic']
+    require => Exec['install webtatic']
   }
 
   # Ensure PHP run dir is present
@@ -35,7 +34,8 @@ class php {
     ensure => 'directory',
     owner => 'nginx',
     group => 'nginx',
-    mode => 755
+    mode => 755,
+    require => Package['php70w-fpm'],
   }
 
   # Use a custom php-fpm configuration file
