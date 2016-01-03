@@ -1,5 +1,5 @@
 class extras {
-	
+
   #
   # Install other important/useful packages.
   #
@@ -7,9 +7,10 @@ class extras {
     'vim-enhanced',
     'git',
     'wget',
+		'telnet',
   ]
-  
-  package { $packages: 
+
+  package { $packages:
     require => Package['epel-release']
   }
 
